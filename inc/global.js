@@ -67,7 +67,7 @@
 					} else { // add/modify pin
 						el.className = COLOR; // eventually send artwork to draw() for rendering
 						if( typeof(ARTWORK[row]) === 'undefined' ) {
-							ARTWORK[row] = []; 
+							ARTWORK[row] = [];
 						}
 						ARTWORK[row][col] = COLOR; // STORE POSITION & COLOR
 						MIDI.noteOn(0, note, 127, 0); // plays note (channel, note, velocity, delay)
@@ -108,7 +108,7 @@
 	MIDI.loadPlugin(function() {
 		var grid = new liteBrite;
 		grid.init();
-		
+
 	}, "piano", "./inc/MIDI.js/"); // specifying a path doesn't work
 
 

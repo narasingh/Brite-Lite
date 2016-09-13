@@ -11,7 +11,7 @@
 	MIDI.channels
 	MIDI.keyToNote
 	MIDI.noteToKey
-	
+
 	setMute?
 	getInstruments?
 
@@ -114,7 +114,7 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 	};
 
 	root.connect = function (callback) {
-	
+
 		MIDI.lang = 'WebAudioAPI';
 		MIDI.setVolume = root.setVolume;
 		MIDI.programChange = root.programChange;
@@ -146,7 +146,7 @@ if (window.Audio) (function () {
 
 	var root = MIDI.HTML5 = {};
 	var note2id = {};
-	var volume = 1; // floating point 
+	var volume = 1; // floating point
 	var channel_nid = -1; // current channel
 	var channel_map = {}; // map to current playing <audio> elements
 	var channels = []; // the audio channels
@@ -171,17 +171,17 @@ if (window.Audio) (function () {
 	root.programChange = function () {
 
 	};
-	
+
 	root.setVolume = function (n) {
 		volume = n;
 	};
-	
+
 	root.noteOn = function (channel, note, velocity, delay) {
 		var id = note2id[note];
 		if (!notes[id]) return;
 		if (delay) {
-			var interval = window.setTimeout(function() { 
-				playChannel(id); 
+			var interval = window.setTimeout(function() {
+				playChannel(id);
 			}, delay * 1000);
 			return interval;
 		} else {
@@ -233,9 +233,9 @@ if (window.Audio) (function () {
 	Flash - MP3 Soundbank
 	----------------------
 	http://www.schillmania.com/projects/soundmanager2/
-	
+
 */
-	
+
 (function () {
 
 	var root = MIDI.Flash = {};
@@ -251,7 +251,7 @@ if (window.Audio) (function () {
 		var id = noteReverse[note];
 		if (!notes[id]) return;
 		if (delay) {
-			var interval = window.setTimeout(function() { 
+			var interval = window.setTimeout(function() {
 				notes[id].play({ volume: velocity * 2 });
 			}, delay * 1000);
 			return interval;
@@ -329,7 +329,7 @@ if (window.Audio) (function () {
 	Java - Native Soundbank
 	----------------------------
 	https://github.com/abudaan/midibridge-js
-	http://java.sun.com/products/java-media/sound/soundbanks.html	
+	http://java.sun.com/products/java-media/sound/soundbanks.html
 */
 
 (function () {
@@ -354,11 +354,11 @@ if (window.Audio) (function () {
 			plugin.sendMidiEvent(0xC0, 0, program, 0);
 		};
 		MIDI.setVolume = function (n) {
-			
+
 		};
 		MIDI.noteOn = function (channel, note, velocity, delay) {
 			if (delay) {
-				var interval = window.setTimeout(function() { 
+				var interval = window.setTimeout(function() {
 					plugin.sendMidiEvent(0x90, channel, note, velocity);
 				}, delay * 1000);
 				return interval;
@@ -368,7 +368,7 @@ if (window.Audio) (function () {
 		};
 		MIDI.noteOff = function (channel, note, delay) {
 			if (delay) {
-				var interval = window.setTimeout(function() { 
+				var interval = window.setTimeout(function() {
 					plugin.sendMidiEvent(0x80, channel, note, 0);
 				}, delay * 1000);
 				return interval;
