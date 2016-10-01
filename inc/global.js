@@ -15,6 +15,7 @@
 			COLOR = document.body.className,
 			MOUSEDOWN = 0,
 			ARTWORK = []; // an array tracking what you drew
+		this.socket = null;
 
 		this.init = function() {
 			var row_count = PARENTHEIGHT / NODEHEIGHT >>> 0,
@@ -38,6 +39,7 @@
 				PARENT.appendChild(row);
 			}
 			this.draw();
+			this.setupSocket();
 		}
 
 		this.colorSelect = function( list, el ) {
@@ -50,16 +52,18 @@
 		}
 
 		// DRAW OR ERASE COLOR NODE, STORE IN ARTWORK ARRAY
-		this.togglePeg = function ( el, click ) {
+		this.togglePeg = function ( evtData ) {
 			var root = 80, // top left note
-				col = 0, // add half step to the right
-				row = 0, // drop a 5th every row
+				col = evtData.col,
+				row = evtData.row,
+				el = document.getElementById('r' + row).childNodes[col],
 				note = 0;
-			return function() {
-				if(MOUSEDOWN > 0 || click === true) { // initiate click
-					col = parseInt( el.id.substr(1), 10 ); // fret = column number
-					row = parseInt( el.parentNode.id.substr(1), 10 ); // row = row number (5th)
+					// initiate click
+					//col = parseInt( el.id.substr(1), 10 ); // fret = column number
+					//row = parseInt( el.parentNode.id.substr(1), 10 ); // row = row number (5th)
+					COLOR = evtData.color;
 					note = (root-(row*5))+col;
+
 					if(el.className === COLOR) {  // delete pin
 						el.className = '';
 						ARTWORK[row][col] = null;
@@ -72,9 +76,6 @@
 						ARTWORK[row][col] = COLOR; // STORE POSITION & COLOR
 						MIDI.noteOn(0, note, 127, 0); // plays note (channel, note, velocity, delay)
 					}
-					console.log(ARTWORK);
-				}
-			}
 		}
 
 		this.clearList = function ( list, className ) {
@@ -93,13 +94,38 @@
 				for(var column = 0; column < col_count; column++) {
 					var node = document.createElement('div');
 					node.setAttribute('id', 'c'+column)
-					Event.add(node, 'mousedown', self.togglePeg( node, true ) );
-					Event.add(node, 'mouseover', self.togglePeg( node ) );
+					//Event.add(node, 'mousedown', self.togglePeg( node, true ) );
+					//Event.add(node, 'mouseover', self.togglePeg( node ) );
+					Event.add(node, 'mousedown', self.handleMidiEvent(node, true).bind(this));
 					ROWS[i].appendChild(node);
 				}
 			}
 			PARENT.style.width = col_count * NODEWIDTH + 'px';
 		}
+
+		this.setupSocket = function(){
+			var host = window.location.origin.replace(/^http/, 'ws');
+			var self = this;
+			this.socket = io.connect('/', {rememberTransport: false});
+			this.socket.on('color', function(event) {
+				self.togglePeg(JSON.parse(event.color));
+			});
+		};
+		this.handleMidiEvent = function(el, click) {
+			var col;
+			var row;
+			var data = {};
+			return function(){
+				if(MOUSEDOWN > 0 || click === true){ //initiate click
+					col = ~~(el.id.substr(1));
+					row = ~~(el.parentNode.id.substr(1));
+					data.col = col;
+					data.row = row;
+					data.color = COLOR;
+					this.socket.emit('onColorSelect', {color: JSON.stringify(data)});
+				}
+			}
+		};
 	}
 
 
