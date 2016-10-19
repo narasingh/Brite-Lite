@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://openshift.target.com:8443/oapi/v1/namespaces/brite-lite/buildconfigs/brite-lite/webhooks/912ca1c145063a85/github"
+    "url": "https://github.com/narasingh/Brite-Lite.git"
   },
   "engines": {
     "node": "0.10.x"
