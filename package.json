@@ -11,12 +11,16 @@
     "ws": "~0.4.31",
     "logfmt": "~0.18.1"
   },
-  "subdomain": "dotfury-colorme",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://openshift.target.com:8443/oapi/v1/namespaces/brite-lite/buildconfigs/brite-lite/webhooks/912ca1c145063a85/github"
+  },
   "engines": {
     "node": "0.10.x"
-  }
+  },
+  "license": "MIT"
 }
