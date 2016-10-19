@@ -1,0 +1,7 @@
+{
+  "name": "Brite-lite",
+  "description": "A sample node app using websocket",
+  "repository": "https://github.com/narasingh/Brite-Lite.git",
+  "keywords": ["node", "express"],
+  "image": "heroku/nodejs"
+}
