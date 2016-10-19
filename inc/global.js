@@ -94,8 +94,6 @@
 				for(var column = 0; column < col_count; column++) {
 					var node = document.createElement('div');
 					node.setAttribute('id', 'c'+column)
-					//Event.add(node, 'mousedown', self.togglePeg( node, true ) );
-					//Event.add(node, 'mouseover', self.togglePeg( node ) );
 					Event.add(node, 'mousedown', self.handleMidiEvent(node, true).bind(this));
 					ROWS[i].appendChild(node);
 				}
