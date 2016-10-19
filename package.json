@@ -2,7 +2,6 @@
   "name": "Brite-lite",
   "description": "music using socket",
   "version": "0.0.1",
-  "private": true,
   "author": "narasingh mishra",
   "dependencies": {
     "express": "3.x",
@@ -11,16 +10,13 @@
     "ws": "~0.4.31",
     "logfmt": "~0.18.1"
   },
-  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
+  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/narasingh/Brite-Lite.git"
-  },
-  "engines": {
-    "node": "0.10.x"
   },
   "license": "MIT"
 }
