@@ -1,4 +1,5 @@
-(function() { "use strict";
+(function() {
+	 "use strict";
 	// REMOVE BLANK CHARS FROM BEGINNING AND END OF STRING
 	String.prototype.trim = function () {
 		return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
@@ -129,11 +130,13 @@
 
 //	MIDI.loadPlugin(callback, soundfont);
 	// simple example to get started;
+window.onload = function() {
 	MIDI.loadPlugin(function() {
 		var grid = new liteBrite;
 		grid.init();
 
 	}, "piano", "./inc/MIDI.js/"); // specifying a path doesn't work
+}	
 
 
 
